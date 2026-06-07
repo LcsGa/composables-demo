@@ -35,6 +35,9 @@ importers:
       '@signality/core':
         specifier: ^0.3.2
         version: 0.3.2(aaae0d5edf78395fd40e470624fba31c)
+      '@tanstack/angular-query-experimental':
+        specifier: ^5.101.0
+        version: 5.101.0(@angular/common@22.0.0(@angular/core@22.0.0(@angular/compiler@22.0.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.0(@angular/compiler@22.0.0)(rxjs@7.8.2))
       open-props:
         specifier: ^1.7.23
         version: 1.7.23
@@ -1435,6 +1438,18 @@ packages:
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
+
+  '@tanstack/angular-query-experimental@5.101.0':
+    resolution: {integrity: sha512-UTqugLpQPEkFgdqyhA7VlsGbsyhB+h73RyYVpNVGXzqL8N4dlsrzWND1KrD1Oa4Uce4k1hSkIisS+5EmzPKeHA==}
+    peerDependencies:
+      '@angular/common': '>=16.0.0'
+      '@angular/core': '>=16.0.0'
+
+  '@tanstack/query-core@5.101.0':
+    resolution: {integrity: sha512-cQetA74EB+seWySv1TTKr828TnP0u39m6LykwDXIo84SNortpDkp30TMEjkqtYCNP9c40uT/iwl6MLiufEt0Ow==}
+
+  '@tanstack/query-devtools@5.101.0':
+    resolution: {integrity: sha512-MVqw17k08RQtGGLEL654+dX/btbX9p/8WjkznO//zusLTMaObxi3Q+MoFwGVkC9K3tqjn8qrrNhJevXx4fJTeQ==}
 
   '@tufjs/canonical-json@2.0.0':
     resolution: {integrity: sha512-yVtV8zsdo8qFHe+/3kw81dSLyF7D576A5cCFCi4X7B39tWT7SekaEFUnvnWJHz+9qO7qJTah1JbrDjWKqFtdWA==}
@@ -4036,6 +4051,19 @@ snapshots:
       '@sigstore/protobuf-specs': 0.5.1
 
   '@standard-schema/spec@1.1.0': {}
+
+  '@tanstack/angular-query-experimental@5.101.0(@angular/common@22.0.0(@angular/core@22.0.0(@angular/compiler@22.0.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.0.0(@angular/compiler@22.0.0)(rxjs@7.8.2))':
+    dependencies:
+      '@angular/common': 22.0.0(@angular/core@22.0.0(@angular/compiler@22.0.0)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@angular/core': 22.0.0(@angular/compiler@22.0.0)(rxjs@7.8.2)
+      '@tanstack/query-core': 5.101.0
+    optionalDependencies:
+      '@tanstack/query-devtools': 5.101.0
+
+  '@tanstack/query-core@5.101.0': {}
+
+  '@tanstack/query-devtools@5.101.0':
+    optional: true
 
   '@tufjs/canonical-json@2.0.0': {}
 

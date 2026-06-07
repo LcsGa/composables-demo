@@ -6,3 +6,17 @@
     grid-row: 1;
   }
 }
+
+:has(> .overlay) {
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: var(--font-size-8);
+  background: color-mix(in oklab, light-dark(var(--gray-1), var(--gray-15)), transparent);
+  color: light-dark(var(--blue-11), var(--blue-3));
+}
