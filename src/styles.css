@@ -1,0 +1,8 @@
+@import 'opui-css/css/imports';
+
+.ui-select {
+  > .ui-field,
+  &::after {
+    grid-row: 1;
+  }
+}
