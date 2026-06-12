@@ -1,5 +1,5 @@
 import type { Pagination } from '@/pagination';
-import type { ProductsList } from '@/product';
+import type { Product, ProductsList } from '@/product';
 import { PRODUCTS_STUB } from '@/product/products-stub';
 import { Service } from '@angular/core';
 import { delay, of } from 'rxjs';
@@ -11,6 +11,17 @@ export class ProductRepository {
 
   getAll(pagination?: Pagination) {
     return of(this.#buildProductsList(pagination)).pipe(delay(this.fakeNetworkDelay));
+  }
+
+  addOne(newProduct: Omit<Product, 'id'>) {
+    const newId = (this.products.at(-1)?.id ?? 0) + 1;
+    this.products.push({ ...newProduct, id: newId });
+    return of(newProduct).pipe(delay(this.fakeNetworkDelay));
+  }
+
+  deleteOne(id: Product['id']) {
+    this.products = this.products.filter(({ id: productId }) => productId !== id);
+    return of(null).pipe(delay(this.fakeNetworkDelay));
   }
 
   #buildProductsList(pagination: Pagination = { limit: 30, skip: 0 }): ProductsList {

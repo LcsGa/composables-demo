@@ -7,6 +7,10 @@
   }
 }
 
+dialog {
+  margin: auto;
+}
+
 :has(> .overlay) {
   position: relative;
 }

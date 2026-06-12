@@ -1,17 +1,30 @@
+import { ProductStore, useProductStore } from '@/product/product-store';
+import { ProductsTable } from '@/product/products-table';
 import { Component } from '@angular/core';
-import { ProductsTable } from './product/products-table';
+import { AddProductButton } from './product/add-product-button';
 
 @Component({
   selector: 'app-root',
-  imports: [ProductsTable],
+  imports: [ProductsTable, AddProductButton],
+  providers: [{ provide: ProductStore, useFactory: useProductStore }],
   styles: `
-    :host > :where(header, main) {
-      padding-inline: var(--size-3);
+    :host {
+      > :where(header, main) {
+        padding-inline: var(--size-3);
+      }
+
+      > header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
     }
   `,
   template: `
     <header>
       <h1>Products</h1>
+
+      <app-add-product-button />
     </header>
 
     <main>

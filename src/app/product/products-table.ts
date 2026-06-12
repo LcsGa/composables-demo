@@ -1,13 +1,19 @@
 import { Paginator } from '@/pagination/paginator';
-import { useProductStore } from '@/product/product-store';
+import { ProductStore } from '@/product/product-store';
 import { CurrencyPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { DeleteProductButton } from './delete-product-button';
 
 @Component({
   selector: 'app-products-table',
-  imports: [CurrencyPipe, Paginator],
+  imports: [CurrencyPipe, Paginator, DeleteProductButton],
+  styles: `
+    .title {
+      margin: 0;
+    }
+  `,
   template: `
-    @let cols = ['Product', 'Category', 'Price', 'Stock'];
+    @let cols = ['Product', 'Category', 'Price', 'Stock', ''];
     @let products = productStore.products;
 
     <table class="ui-table">
@@ -25,11 +31,9 @@ import { Component } from '@angular/core';
         }
         @for (product of products.data()?.products; track product.id) {
           <tr>
-            <td>
-              @if (product.brand) {
-                <small>{{ product.brand }}</small>
-              }
-              <p>{{ product.title }}</p>
+            <td class="ui-hgroup">
+              <p class="ui-p">{{ product.brand }}</p>
+              <p class="ui-h2 title">{{ product.title }}</p>
             </td>
 
             <td>
@@ -39,6 +43,10 @@ import { Component } from '@angular/core';
             <td>{{ product.price | currency }}</td>
 
             <td>{{ product.stock }}</td>
+
+            <td tuiTd>
+              <app-delete-product-button [product]="product" />
+            </td>
           </tr>
         } @empty {
           <tr>
@@ -76,5 +84,5 @@ import { Component } from '@angular/core';
   `,
 })
 export class ProductsTable {
-  protected readonly productStore = useProductStore();
+  protected readonly productStore = inject(ProductStore);
 }
