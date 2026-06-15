@@ -2,7 +2,7 @@ import type { Pagination } from '@/pagination';
 import type { Product, ProductsList } from '@/product';
 import { PRODUCTS_STUB } from '@/product/products-stub';
 import { Service } from '@angular/core';
-import { delay, of } from 'rxjs';
+import { delay, map, of, tap } from 'rxjs';
 
 @Service({ autoProvided: true })
 export class ProductRepository {
@@ -15,13 +15,17 @@ export class ProductRepository {
 
   addOne(newProduct: Omit<Product, 'id'>) {
     const newId = (this.products.at(-1)?.id ?? 0) + 1;
-    this.products.push({ ...newProduct, id: newId });
-    return of(newProduct).pipe(delay(this.fakeNetworkDelay));
+    return of({ ...newProduct, id: newId }).pipe(
+      delay(this.fakeNetworkDelay),
+      map((addedProduct) => this.products.push(addedProduct)),
+    );
   }
 
   deleteOne(id: Product['id']) {
-    this.products = this.products.filter(({ id: productId }) => productId !== id);
-    return of(null).pipe(delay(this.fakeNetworkDelay));
+    return of(null).pipe(
+      delay(this.fakeNetworkDelay),
+      tap(() => (this.products = this.products.filter(({ id: productId }) => productId !== id))),
+    );
   }
 
   #buildProductsList(pagination: Pagination = { limit: 30, skip: 0 }): ProductsList {

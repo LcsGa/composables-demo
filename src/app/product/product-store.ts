@@ -5,6 +5,7 @@ import { ProductRepository } from '@/product/products-repository';
 import { inject, InjectionToken } from '@angular/core';
 import {
   injectMutation,
+  injectMutationState,
   injectQuery,
   keepPreviousData,
   QueryClient,
@@ -28,21 +29,24 @@ export function useProductStore() {
     };
   });
 
-  const addProduct = injectMutation(() => {
-    return {
-      mutationFn: (product: Omit<Product, 'id'>) => lastValueFrom(repo.addOne(product)),
-      onSuccess: () =>
-        queryClient.invalidateQueries({ queryKey: productKeys.list(pagination.value()) }),
-    };
-  });
+  const addProduct = injectMutation(() => ({
+    mutationFn: (product: Omit<Product, 'id'>) => lastValueFrom(repo.addOne(product)),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: productKeys.lists() }),
+  }));
 
-  const deleteProduct = injectMutation(() => {
-    return {
-      mutationFn: (id: Product['id']) => lastValueFrom(repo.deleteOne(id)),
-      onSuccess: () =>
-        queryClient.invalidateQueries({ queryKey: productKeys.list(pagination.value()) }),
-    };
-  });
+  const deleteProduct = injectMutation(() => ({
+    mutationKey: productKeys.delete(),
+    mutationFn: (id: Product['id']) => lastValueFrom(repo.deleteOne(id)),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: productKeys.lists() }),
+  }));
 
-  return { products, pagination, addProduct, deleteProduct };
+  const deletingProductIds = injectMutationState(() => ({
+    filters: {
+      mutationKey: productKeys.delete(),
+      status: 'pending',
+    },
+    select: ({ state }) => state.variables as ReturnType<typeof deleteProduct.variables>,
+  }));
+
+  return { products, pagination, addProduct, deleteProduct, deletingProductIds };
 }
