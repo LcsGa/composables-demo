@@ -1,6 +1,6 @@
 import type { Product } from '@/product';
-import { ProductStore } from '@/product/product-store';
-import { Component, computed, inject, input } from '@angular/core';
+import { useDeleteProduct } from '@/product/use-delete-product';
+import { Component, input } from '@angular/core';
 import { LucideTrash } from '@lucide/angular';
 
 @Component({
@@ -10,22 +10,17 @@ import { LucideTrash } from '@lucide/angular';
     <button
       class="ui-button ui-small ui-critical"
       aria-label="Delete Product"
-      [disabled]="isDeleting()"
-      [aria-busy]="isDeleting()"
-      (click)="productStore.deleteProduct.mutateAsync(this.product().id)"
+      [disabled]="deleteProduct.isPending()"
+      [aria-busy]="deleteProduct.isPending()"
+      (click)="deleteProduct.mutateAsync(this.product().id)"
     >
-      @if (!isDeleting()) {
+      @if (!deleteProduct.isPending()) {
         <svg lucideTrash></svg>
       }
     </button>
   `,
 })
 export class DeleteProductButton {
-  protected readonly productStore = inject(ProductStore);
-
   readonly product = input.required<Product>();
-
-  protected readonly isDeleting = computed(() =>
-    this.productStore.deletingProductIds().includes(this.product().id),
-  );
+  protected readonly deleteProduct = useDeleteProduct();
 }

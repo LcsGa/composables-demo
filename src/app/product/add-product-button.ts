@@ -1,6 +1,6 @@
 import type { CreateProduct } from '@/product';
-import { ProductStore } from '@/product/product-store';
-import { Component, inject, signal, viewChild, type ElementRef } from '@angular/core';
+import { useAddProduct } from '@/product/use-add-product';
+import { Component, signal, viewChild, type ElementRef } from '@angular/core';
 import { form, FormField, FormRoot, min, required } from '@angular/forms/signals';
 import { LucidePlus } from '@lucide/angular';
 
@@ -90,7 +90,7 @@ export class AddProductButton {
     stock: 0,
   } satisfies CreateProduct;
 
-  protected readonly productStore = inject(ProductStore);
+  protected readonly addProduct = useAddProduct();
 
   readonly dialog = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
 
@@ -112,7 +112,7 @@ export class AddProductButton {
     {
       submission: {
         action: async (form) => {
-          await this.productStore.addProduct.mutateAsync(form().value());
+          await this.addProduct.mutateAsync(form().value());
           this.dialog().nativeElement.close();
           this.reset();
         },

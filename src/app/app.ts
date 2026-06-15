@@ -1,4 +1,3 @@
-import { ProductStore, useProductStore } from '@/product/product-store';
 import { ProductsTable } from '@/product/products-table';
 import { Component } from '@angular/core';
 import { AddProductButton } from './product/add-product-button';
@@ -6,7 +5,6 @@ import { AddProductButton } from './product/add-product-button';
 @Component({
   selector: 'app-root',
   imports: [ProductsTable, AddProductButton],
-  providers: [{ provide: ProductStore, useFactory: useProductStore }],
   styles: `
     :host {
       > :where(header, main) {

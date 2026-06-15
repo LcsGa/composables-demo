@@ -1,7 +1,7 @@
 import { Paginator } from '@/pagination/paginator';
-import { ProductStore } from '@/product/product-store';
+import { useProducts } from '@/product/use-products';
 import { CurrencyPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { DeleteProductButton } from './delete-product-button';
 
 @Component({
@@ -14,7 +14,6 @@ import { DeleteProductButton } from './delete-product-button';
   `,
   template: `
     @let cols = ['Product', 'Category', 'Price', 'Stock', ''];
-    @let products = productStore.products;
 
     <table class="ui-table">
       <thead>
@@ -70,7 +69,7 @@ import { DeleteProductButton } from './delete-product-button';
       <tfoot>
         <tr>
           <td [attr.colspan]="cols.length">
-            @let pagination = productStore.pagination;
+            @let pagination = products.pagination;
 
             <app-paginator
               [(page)]="pagination.page"
@@ -84,5 +83,5 @@ import { DeleteProductButton } from './delete-product-button';
   `,
 })
 export class ProductsTable {
-  protected readonly productStore = inject(ProductStore);
+  protected readonly products = useProducts();
 }
